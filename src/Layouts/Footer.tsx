@@ -6,10 +6,10 @@ const Footer = () => {
     <footer className="footer">
       <Container fluid>
         <Row>
-          <Col sm={6}>{new Date().getFullYear()} © <Link to="https://shivinfotech.co/" className="text-muted" target="_blank">Shivinfotech</Link>.</Col>
+          <Col sm={6}>{new Date().getFullYear()} © <Link to="https://shivinfotech.co/" className="text-muted" target="_blank">DigitingMedia</Link>.</Col>
           <Col sm={6}>
             <div className="text-sm-end d-none d-sm-block">
-              Design & Develop by <Link to="https://shivinfotech.co/" className="text-muted" target="_blank">Shivinfotech</Link>
+              Design & Develop by <Link to="https://shivinfotech.co/" className="text-muted" target="_blank">DigitingMedia</Link>
             </div>
           </Col>
         </Row>

@@ -27,7 +27,7 @@ export const userLabel = {
 
 export const labels = {
   welcome: "Welcome Back !",
-  signIn: "Sign in to continue to Building management.",
+  signIn: "Sign in to continue to DigitingMedia.",
 };
 
 export const userTab = {

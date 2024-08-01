@@ -6,7 +6,7 @@ import Section from "./Section";
 const Dashboard = () => {
 
   document.title =
-    "Dashboard | Shivinfotech - React Admin & Dashboard Template";
+    "Dashboard | DigitingMedia - React Admin & Dashboard Template";
 
   const [rightColumn, setRightColumn] = useState<boolean>(true);
   const toggleRightColumn = () => {

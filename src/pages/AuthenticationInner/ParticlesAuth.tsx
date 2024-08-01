@@ -27,8 +27,8 @@ const ParticlesAuth = ({ children }: any) => {
               <div className="col-lg-12">
                 <div className="text-center">
                   <p className="mb-0 text-muted">
-                    &copy; {new Date().getFullYear()} Shivinfotech. Crafted with{" "}
-                    by Shivinfotech
+                    &copy; {new Date().getFullYear()} DigitingMedia. Crafted with{" "}
+                    by DigitingMedia
                   </p>
                 </div>
               </div>
