@@ -1,0 +1,90 @@
+export const projectTable = [
+  {
+    id: 1,
+    projectName: "building management",
+    address: "Anand Nagar Flats, 40/406, Prahlad Nagar",
+    zipCode: "380015",
+    city: "rajkot",
+    state: "gujarat",
+  },
+  {
+    id: 2,
+    projectName: "building management",
+    address: "Anand Nagar Flats, 40/406, Prahlad Nagar",
+    zipCode: "380015",
+    city: "rajkot",
+    state: "gujarat",
+  },
+  {
+    id: 3,
+    projectName: "building management",
+    address: "Anand Nagar Flats, 40/406, Prahlad Nagar",
+    zipCode: "380015",
+    city: "rajkot",
+    state: "gujarat",
+  },
+  {
+    id: 4,
+    projectName: "building management",
+    address: "Anand Nagar Flats, 40/406, Prahlad Nagar",
+    zipCode: "380015",
+    city: "rajkot",
+    state: "gujarat",
+  },
+  {
+    id: 5,
+    projectName: "building management",
+    address: "Anand Nagar Flats, 40/406, Prahlad Nagar",
+    zipCode: "380015",
+    city: "rajkot",
+    state: "gujarat",
+  },
+  {
+    id: 6,
+    projectName: "building management",
+    address: "Anand Nagar Flats, 40/406, Prahlad Nagar",
+    zipCode: "380015",
+    city: "rajkot",
+    state: "gujarat",
+  },
+  {
+    id: 7,
+    projectName: "building management",
+    address: "Anand Nagar Flats, 40/406, Prahlad Nagar",
+    zipCode: "380015",
+    city: "rajkot",
+    state: "gujarat",
+  },
+  {
+    id: 8,
+    projectName: "building management",
+    address: "Anand Nagar Flats, 40/406, Prahlad Nagar",
+    zipCode: "380015",
+    city: "rajkot",
+    state: "gujarat",
+  },
+];
+
+export const projectLabel = {
+  Title: "Project",
+  AddEmployee: "Add Project",
+  projectName: "Project Name",
+  City: "City",
+  State: "State",
+  Action: "Action",
+  Address: "Address",
+  ZipCode: "ZipCode",
+  Project_details: "Project Details",
+  ZipCodeValidationMessage: "Zip code should be 6 digit",
+  ZipCodeValidation: 'zipCode',
+  IsValidZipCode: 'is-valid-zipcode'
+};
+
+export const projectKey = {
+  ProjectName: "project_name",
+  City: "city",
+  State: "state",
+  ZipCode: "zip_code",
+  Address: "address",
+  Action: "action",
+};
