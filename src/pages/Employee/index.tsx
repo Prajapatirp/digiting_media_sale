@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import TableContainer from "Components/Base/TableContainer";
 import { toast } from "react-toastify";
-import { roleEnums, searchPlaceHolder } from "../../Components/constants/common";
+import { searchPlaceHolder } from "../../Components/constants/common";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import DeleteModal from "Components/Base/DeleteModal";
 import { projectTitle } from "Components/constants/common";
@@ -65,6 +65,9 @@ const Employee = () => {
     if (id) {
       setModalLoader(true);
       condition.id = id;
+    } else {
+      setModalLoader(true);
+      condition.is_deleted = false;
     }
 
     listOfUser({ condition })
@@ -113,7 +116,7 @@ const Employee = () => {
   const columns = useMemo(
     () => [
       {
-        header: employeeLabel.Name,
+        header: employeeLabel.name,
         accessorKey: employeeKey.Name,
         enableColumnFilter: false,
       },
@@ -128,18 +131,16 @@ const Employee = () => {
         enableColumnFilter: false,
       },
       {
-        header: employeeLabel.State,
-        accessorKey: employeeKey.State,
-        enableColumnFilter: false,
-      },
-      {
-        header: employeeLabel.City,
-        accessorKey: employeeKey.City,
-        enableColumnFilter: false,
-      },
-      {
         header: employeeLabel.Role,
         accessorKey: employeeKey.Role,
+        enableColumnFilter: false,
+      },
+      {
+        header: employeeLabel.Date,
+        accessorKey: employeeKey.Date,
+        // cell: (cell: any) => {
+        //   moment(cell?.row?.original?.createdAt).format('ddmmyyyy')
+        // },
         enableColumnFilter: false,
       },
       {
@@ -222,7 +223,7 @@ const Employee = () => {
           <ModalBody>
             <Row className="mb-2">
               <Col lg={4} md={4} sm={4}>
-                <Label className="label-Font">{employeeLabel.Name}</Label>
+                <Label className="label-Font">{employeeLabel.firstName}</Label>
               </Col>
               <Col lg={8} md={8} sm={8}>
                 {viewEmployeeDetails?.name}
@@ -254,41 +255,11 @@ const Employee = () => {
             </Row>
             <Row className="mb-2">
               <Col lg={4} md={4} sm={4}>
-                <Label className="label-Font">{employeeLabel.Address}</Label>
-              </Col>
-              <Col lg={8} md={8} sm={8}>
-                {viewEmployeeDetails?.address}
-              </Col>
-            </Row>
-            <Row className="mb-2">
-              <Col lg={4} md={4} sm={4}>
                 <Label className="label-Font">{employeeLabel.State}</Label>
               </Col>
               <Col lg={8} md={8} sm={8}>
                 {viewEmployeeDetails?.state}
               </Col>
-            </Row>
-            <Row className="mb-2">
-              <Col lg={4} md={4} sm={4}>
-                <Label className="label-Font">{employeeLabel.City}</Label>
-              </Col>
-              <Col lg={8} md={8} sm={8}>
-                {viewEmployeeDetails?.city}
-              </Col>
-            </Row>{" "}
-            <Row className="mb-2">
-              {viewEmployeeDetails?.role === roleEnums?.Employee ? (
-                <>
-                  <Col lg={4} md={4} sm={4}>
-                    <Label className="label-Font">
-                      {employeeLabel.Designation}
-                    </Label>
-                  </Col>
-                  <Col lg={8} md={8} sm={8}>
-                    {viewEmployeeDetails?.designation}
-                  </Col>
-                </>
-              ) : null}
             </Row>
           </ModalBody>
         </Modal>

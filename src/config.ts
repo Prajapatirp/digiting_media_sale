@@ -8,12 +8,12 @@ interface Config {
 
 const config: Config = {
   api: {
-    API_URL: "https://building-management-dczk.onrender.com/api",
+    API_URL: " http://localhost:4000/api",
   },
 };
 export const configImage: Config = {
   api: {
-    API_URL: "https://building-management-dczk.onrender.com/uploads",
+    API_URL: " http://localhost:4000/uploads/",
   },
 };
 

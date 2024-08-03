@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 //import logo
-import logoSm from "../assets/image/shiv.png";
-import logoDark from "../assets/image/shiv.png";
-import logoLight from "../assets/image/shiv.png";
+import logoSm from "../../src/assets/dm_img/dmLogo.png";
+import logoDark from "../../src/assets/dm_img/dmLogo.png";
+import logoLight from "../../src/assets/dm_img/dmLogo.png";
 
 //Import Components
 import { Container } from "reactstrap";
@@ -37,7 +37,7 @@ const Sidebar = ({ layoutType }: any) => {
         <div className="navbar-brand-box">
           <Link to="/" className="logo logo-dark">
             <span className="logo-sm">
-              <img src={logoSm} alt="" height="22" />
+              <img src={logoSm} alt="" height="30" />
             </span>
             <span className="logo-lg">
               <img src={logoDark} alt="" height="17" />

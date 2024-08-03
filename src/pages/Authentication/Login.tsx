@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import withRouter from "../../Components/Base/withRouter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import logoLight from "../../assets/image/shiv.png";
+import logoLight from "../../../src/assets/dm_img/dmLogo.png";
 import { login } from "api/usersApi";
 import { numberRegex, projectTitle, validationMessages } from "../../Components/constants/common";
 import { labels, userLabel } from "../../Components/constants/users";
@@ -81,7 +81,7 @@ const Login = () => {
               <div className="text-center mt-sm-5 mb-4 text-white-50">
                 <div>
                   <Link to="/" className="d-inline-block auth-logo">
-                    <img src={logoLight} alt="" height="40" />
+                    <img src={logoLight} alt="" height="50" width="50" />
                   </Link>
                 </div>
               </div>

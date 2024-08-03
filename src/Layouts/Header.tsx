@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logoLight from "../assets/image/shiv.png";
+import logoLight from "../../src/assets/dm_img/dmLogo.png";
 import ProfileDropdown from "../Components/Base/ProfileDropdown";
 
 const Header = ({ headerClass }: any) => {

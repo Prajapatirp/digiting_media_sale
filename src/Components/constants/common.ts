@@ -47,6 +47,7 @@ export const roleEnums = {
   Vendor: "Vendor",
   Manager: "Manager",
   SuperAdmin: "Super Admin",
+  Dealer: 'Dealer',
   Employee: "Employee"
 }
 

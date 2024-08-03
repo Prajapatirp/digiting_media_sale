@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import withRouter from "../../Components/Base/withRouter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import logoLight from "../../assets/image/shiv.png";
+import logoLight from "../../../src/assets/dm_img/dmLogo.png";
 import ParticlesAuth from "../AuthenticationInner/ParticlesAuth";
 import { userLabel } from "Components/constants/users";
 import { emailRegex, projectTitle, validationMessages } from "Components/constants/common";
