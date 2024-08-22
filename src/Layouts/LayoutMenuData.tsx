@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   dashboard,
+  deal,
   employee,
   master,
   project,
@@ -87,13 +88,19 @@ const NavData = () => {
         {
           id: "Employee",
           label: stackHolder,
-          link: "/stack-holder",
+          link: "/dealer",
           parentId: "Service",
         },
         {
           id: "Project",
           label: project,
           link: "/project",
+          parentId: "Service",
+        },
+        {
+          id: "Deal",
+          label: deal,
+          link: "/deal",
           parentId: "Service",
         },
       ],
