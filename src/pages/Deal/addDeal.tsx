@@ -30,6 +30,7 @@ import { dynamicFind } from "helpers/service";
 import { register, updateProfile } from "api/usersApi";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { dealLabel } from "Components/constants/deal";
 
 type SelectedOption = { label: string; value: string };
 type Payload = {
@@ -45,8 +46,6 @@ type Payload = {
 
 const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
   const [loader, setLoader] = useState<boolean>(false);
-  const [passwordShow, setPasswordShow] = useState<boolean>(false);
-  const [confirmPassword, setConfirmPassword] = useState<boolean>(false);
   const [isRole, setIsRole] = useState<string>(roleEnums.Dealer);
   let getInitialValue = getInitialValues;
 
@@ -197,7 +196,7 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                       : employeeLabel.AddEmployee}
                   </h5>
                   <Link
-                    to="/task-allocation"
+                    to="/deal"
                     type="submit"
                     className="btn btn-success ms-auto right w-sm">
                     Back
@@ -209,44 +208,45 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                     <Row className="mb-2">
                       <Col lg={4} md={4} sm={6} className="mb-2">
                         <BaseInput
-                          name="firstName"
+                          label={dealLabel.Company_name}
+                          name="company_name"
                           type="text"
-                          placeholder={InputPlaceHolder(
-                            employeeLabel.firstName
-                          )}
+                          placeholder={InputPlaceHolder(dealLabel.Company_name)}
                           handleChange={validation.handleChange}
                           handleBlur={validation.handleBlur}
-                          value={validation.values.firstName}
-                          touched={validation.touched.firstName}
-                          error={validation.errors.firstName}
+                          value={validation.values.company_name}
+                          touched={validation.touched.company_name}
+                          error={validation.errors.company_name}
                           passwordToggle={false}
                         />
                       </Col>
                       <Col lg={4} md={4} sm={6} className="mb-2">
                         <BaseInput
-                          name="middleName"
+                          label={dealLabel.Customer_name}
+                          name={dealLabel.Customer_name}
                           type="text"
                           placeholder={InputPlaceHolder(
-                            employeeLabel.middleName
+                            dealLabel.Customer_name
                           )}
                           handleChange={validation.handleChange}
                           handleBlur={validation.handleBlur}
-                          value={validation.values.middleName}
-                          touched={validation.touched.middleName}
-                          error={validation.errors.middleName}
+                          value={validation.values.customer_name}
+                          touched={validation.touched.customer_name}
+                          error={validation.errors.customer_name}
                           passwordToggle={false}
                         />
                       </Col>
                       <Col lg={4} md={4} sm={6} className="mb-2">
                         <BaseInput
-                          name="lastName"
+                          label={dealLabel.Owner_mobile}
+                          name={dealLabel.Owner_mobile}
                           type="text"
-                          placeholder={InputPlaceHolder(employeeLabel.lastName)}
+                          placeholder={InputPlaceHolder(dealLabel.Owner_mobile)}
                           handleChange={validation.handleChange}
                           handleBlur={validation.handleBlur}
-                          value={validation.values.lastName}
-                          touched={validation.touched.lastName}
-                          error={validation.errors.lastName}
+                          value={validation.values.owner_mobile}
+                          touched={validation.touched.owner_mobile}
+                          error={validation.errors.owner_mobile}
                           passwordToggle={false}
                         />
                       </Col>
@@ -254,28 +254,30 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                     <Row className="mb-2">
                       <Col lg={4} md={4} sm={6} className="mb-2">
                         <BaseInput
-                          name="contact_no"
+                          label={dealLabel.Inquire_number}
+                          name={dealLabel.Inquire_number}
                           type="number"
                           placeholder={InputPlaceHolder(
-                            employeeLabel.ContactNo
+                            dealLabel.Inquire_number
                           )}
                           handleChange={validation.handleChange}
                           handleBlur={validation.handleBlur}
-                          value={validation.values.contact_no}
-                          touched={validation.touched.contact_no}
-                          error={validation.errors.contact_no}
+                          value={validation.values.inquiry_number}
+                          touched={validation.touched.inquiry_number}
+                          error={validation.errors.inquiry_number}
                           passwordToggle={false}
                           onKeyPress={() => {
-                            if (validation.value.contact_no.length == 10)
+                            if (validation.value.inquiry_number.length == 10)
                               return false;
                           }}
                         />
                       </Col>
                       <Col lg={4} md={4} sm={12} className="mb-2">
                         <BaseInput
-                          name="email"
+                          label={dealLabel.Email}
+                          name={dealLabel.Email}
                           type="text"
-                          placeholder={InputPlaceHolder(employeeLabel.Email)}
+                          placeholder={InputPlaceHolder(dealLabel.Email)}
                           handleChange={validation.handleChange}
                           handleBlur={validation.handleBlur}
                           value={validation.values.email}
@@ -286,6 +288,7 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                       </Col>
                       <Col className="mb-2" lg={4} md={4} sm={12}>
                         <BaseSelect
+                          label="Role"
                           name="role"
                           className="select-border"
                           options={roleType}
@@ -307,38 +310,204 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                       </Col>
                     </Row>
                     <Row className="mb-2">
-                      <Col lg={4} className="mb-2">
+                      <Col lg={4} md={4} sm={6} className="mb-2">
                         <BaseInput
-                          name="password"
-                          type="password"
-                          placeholder={InputPlaceHolder(userLabel.password)}
+                          label={dealLabel.PinCode}
+                          name={dealLabel.PinCode}
+                          type="text"
+                          placeholder={InputPlaceHolder(dealLabel.PinCode)}
                           handleChange={validation.handleChange}
                           handleBlur={validation.handleBlur}
-                          value={validation.values.password}
-                          touched={validation.touched.password}
-                          error={validation.errors.password}
-                          passwordToggle={true}
-                          onclick={() => setPasswordShow(!passwordShow)}
-                          disabled={getInitialValues === null ? false : true}
+                          value={validation.values.pin_code}
+                          touched={validation.touched.pin_code}
+                          error={validation.errors.pin_code}
+                          passwordToggle={false}
                         />
                       </Col>
-                      <Col lg={4} className="mb-2">
+                      <Col lg={4} md={4} sm={6} className="mb-2">
                         <BaseInput
-                          name="confirmPassword"
-                          type={confirmPassword ? "text" : "password"}
+                          label={dealLabel.Contract_start_date}
+                          name="contract_date"
+                          type="text"
                           placeholder={InputPlaceHolder(
-                            userLabel.confirmPassword
+                            dealLabel.Contract_start_date
                           )}
                           handleChange={validation.handleChange}
                           handleBlur={validation.handleBlur}
-                          value={validation.values.confirmPassword}
-                          touched={validation.touched.confirmPassword}
-                          error={validation.errors.confirmPassword}
-                          passwordToggle={true}
-                          onclick={() => {
-                            setConfirmPassword(!confirmPassword);
-                          }}
-                          disabled={getInitialValues === null ? false : true}
+                          value={validation.values.contract_date}
+                          touched={validation.touched.contract_date}
+                          error={validation.errors.contract_date}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                      <Col lg={4} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Contract_end_date}
+                          name={dealLabel.Contract_end_date}
+                          type="text"
+                          placeholder={InputPlaceHolder(
+                            dealLabel.Contract_end_date
+                          )}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.contract_end_date}
+                          touched={validation.touched.contract_end_date}
+                          error={validation.errors.contract_end_date}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="mb-2">
+                      <Col lg={4} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Package}
+                          name="package_id"
+                          type="text"
+                          placeholder={InputPlaceHolder(dealLabel.Package)}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.package_id}
+                          touched={validation.touched.package_id}
+                          error={validation.errors.package_id}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                      <Col lg={4} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Month}
+                          name="month"
+                          type="text"
+                          placeholder={InputPlaceHolder(dealLabel.Month)}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.month}
+                          touched={validation.touched.month}
+                          error={validation.errors.month}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                      <Col lg={4} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Payment}
+                          name="payment"
+                          type="text"
+                          placeholder={InputPlaceHolder(dealLabel.Payment)}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.payment}
+                          touched={validation.touched.payment}
+                          error={validation.errors.payment}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="mb-2">
+                      <Col lg={4} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Customer_address}
+                          name="address"
+                          type="text"
+                          placeholder={InputPlaceHolder(
+                            dealLabel.Customer_address
+                          )}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.address}
+                          touched={validation.touched.address}
+                          error={validation.errors.address}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                      <Col lg={4} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Package_details}
+                          name="package_details"
+                          type="text"
+                          placeholder={InputPlaceHolder(
+                            dealLabel.Package_details
+                          )}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.package_details}
+                          touched={validation.touched.package_details}
+                          error={validation.errors.package_details}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                      <Col lg={4} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Payment_selection}
+                          name="payment_duration"
+                          type="text"
+                          placeholder={InputPlaceHolder(
+                            dealLabel.Payment_selection
+                          )}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.payment_duration}
+                          touched={validation.touched.payment_duration}
+                          error={validation.errors.payment_duration}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="mb-2">
+                      <Col lg={3} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Listing}
+                          name="is_listing"
+                          type="text"
+                          placeholder={InputPlaceHolder(dealLabel.Listing)}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.is_listing}
+                          touched={validation.touched.is_listing}
+                          error={validation.errors.is_listing}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                      <Col lg={3} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Description}
+                          name="description"
+                          type="text"
+                          placeholder={InputPlaceHolder(dealLabel.Description)}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.firstName}
+                          touched={validation.touched.firstName}
+                          error={validation.errors.firstName}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                      <Col lg={3} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Contract_images}
+                          name="contract_images"
+                          type="text"
+                          placeholder={InputPlaceHolder(
+                            dealLabel.Contract_images
+                          )}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.contract_images}
+                          touched={validation.touched.contract_images}
+                          error={validation.errors.contract_images}
+                          passwordToggle={false}
+                        />
+                      </Col>
+                      <Col lg={3} md={4} sm={6} className="mb-2">
+                        <BaseInput
+                          label={dealLabel.Check_images}
+                          name="check_image"
+                          type="text"
+                          placeholder={InputPlaceHolder(dealLabel.Check_images)}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.check_image}
+                          touched={validation.touched.check_image}
+                          error={validation.errors.check_image}
+                          passwordToggle={false}
                         />
                       </Col>
                     </Row>
