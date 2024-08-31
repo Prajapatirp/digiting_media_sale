@@ -1,171 +1,40 @@
 import { useState, useEffect, useMemo } from "react";
 import { Card, Col, Row, Container } from "reactstrap";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { RequiredField } from "Components/constants/requireMsg";
-import {
-  emailRegex,
-  numberRegex,
-  passwordRegex,
-  roleEnums,
-  searchPlaceHolder,
-  validationMessages,
-} from "Components/constants/common";
+import { searchPlaceHolder } from "Components/constants/common";
 import Loader from "Components/Base/Loader";
 import BaseButton from "Components/Base/BaseButton";
 import { employeeLabel } from "Components/constants/employee";
-import { userLabel } from "Components/constants/users";
-import { CREATED, SUCCESS } from "Components/emus/emus";
-import { register, updateProfile } from "api/usersApi";
+import { OK, SUCCESS } from "Components/emus/emus";
 import { toast } from "react-toastify";
 import TableContainer from "Components/Base/TableContainer";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import { DealList, dealKey, dealLabel } from "Components/constants/deal";
+import { dealKey, dealLabel } from "Components/constants/deal";
 import BreadCrumb from "Components/Base/BreadCrumb";
 import { Link } from "react-router-dom";
+import { listOfDeal } from "api/deal";
+import { errorHandle } from "helpers/service";
+import moment from "moment";
 
-type Payload = {
-  first_name: string;
-  last_name: string;
-  middle_name: string;
-  email: string;
-  role: string;
-  phone_no: string;
-  password?: string;
-  confirmPassword?: string;
-};
-
-const DealFrom = ({ getInitialValues, updatedUser }: any) => {
-  const [loader, setLoader] = useState<boolean>(false);
-  const [isRole, setIsRole] = useState<string>(roleEnums.Dealer);
-  let getInitialValue = getInitialValues;
-
-  const validation: any = useFormik({
-    enableReinitialize: true,
-
-    initialValues: getInitialValue || {
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      email: "",
-      contact_no: "",
-      password: "",
-      confirmPassword: "",
-      role: "",
-    },
-    validationSchema: Yup.object({
-      firstName: Yup.string().required(RequiredField(employeeLabel.firstName)),
-      lastName: Yup.string().required(RequiredField(employeeLabel.lastName)),
-      middleName: Yup.string().required(
-        RequiredField(employeeLabel.middleName)
-      ),
-      email: Yup.string()
-        .email(validationMessages.format(userLabel.email))
-        .matches(emailRegex, validationMessages.format(userLabel.email)),
-      contact_no: Yup.string()
-        .required(validationMessages.required(userLabel.contact))
-        .matches(
-          numberRegex,
-          validationMessages.contactLength(userLabel.contact, 10)
-        ),
-      password:
-        getInitialValues === null
-          ? isRole === roleEnums.Dealer
-            ? Yup.string()
-                .required(validationMessages.required(userLabel.password))
-                .min(
-                  8,
-                  validationMessages.passwordLength(userLabel.password, 8)
-                )
-                .matches(
-                  passwordRegex,
-                  validationMessages.passwordComplexity(userLabel.password)
-                )
-            : Yup.string().optional()
-          : Yup.string(),
-      confirmPassword:
-        getInitialValues === null
-          ? isRole === roleEnums.Dealer
-            ? Yup.string()
-                .required(
-                  validationMessages.required(userLabel.confirmPassword)
-                )
-                .oneOf(
-                  [Yup.ref("password")],
-                  "Password and confirm password should be same."
-                )
-            : Yup.string().optional()
-          : Yup.string(),
-      role: Yup.string().required(RequiredField(employeeLabel.Role)),
-    }),
-    onSubmit: (values, { resetForm }) => {
-      let payload: Payload;
-      payload = {
-        first_name: values.firstName,
-        last_name: values.lastName,
-        middle_name: values.middleName,
-        email: values.email,
-        role: values.role,
-        password: values.password,
-        phone_no: String(values.contact_no),
-      };
-
-      if (getInitialValue?.id) {
-        updateProfile(getInitialValue?.id, payload)
-          .then((res) => {
-            setLoader(true);
-            if (res?.statusCode === CREATED && res?.status === SUCCESS) {
-              toast.success(res?.message);
-              resetForm();
-              resetData();
-              updatedUser();
-            } else {
-              toast.error(res?.message);
-            }
-          })
-          .catch((error) => {
-            toast.error(error?.response?.data?.message) ||
-              toast.error(error?.message);
-          })
-          .finally(() => {
-            setLoader(false);
-          });
-      } else {
-        register(payload)
-          .then((res) => {
-            setLoader(true);
-            if (res?.statusCode === CREATED && res?.status === SUCCESS) {
-              toast.success(res?.message);
-              resetForm();
-              resetData();
-              updatedUser();
-            } else {
-              toast.error(res?.message);
-            }
-          })
-          .catch((error) => {
-            toast.error(error?.response?.data?.message) ||
-              toast.error(error?.message);
-          })
-          .finally(() => {
-            setLoader(false);
-          });
-      }
-    },
-  });
-
-  const resetData = () => {
-    validation.setFieldValue("role", null);
-    validation.initialValues.firstName = "";
-    validation.initialValues.lastName = "";
-    validation.initialValues.middleName = "";
-    validation.initialValues.contact_no = "";
-    validation.initialValues.email = "";
-  };
+const DealFrom = () => {
+  const [loader, setLoader] = useState<boolean>(true);
+  const [dealList, setDealList] = useState<any>([]);
 
   useEffect(() => {
-    setIsRole(getInitialValue?.role || roleEnums?.Dealer);
-  }, [getInitialValues]);
+    listOfDeal()
+      .then((res) => {
+        if (res?.statusCode === OK && res?.status === SUCCESS) {
+          setDealList(res?.data);
+        } else {
+          toast.error(res?.message);
+        }
+      })
+      .catch((error) => {
+        errorHandle(error);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -192,11 +61,19 @@ const DealFrom = ({ getInitialValues, updatedUser }: any) => {
       {
         header: dealLabel.Contract_start_date,
         accessorKey: dealKey.Contract_start_date,
+        cell: (cell: any) => {
+          const date = cell?.row?.original?.contract_date;
+          return date ? moment(date).format("LL") : "---";
+        },
         enableColumnFilter: false,
       },
       {
         header: dealLabel.Contract_end_date,
         accessorKey: dealKey.Contract_end_date,
+        cell: (cell: any) => {
+          const date = cell?.row?.original?.contract_end_date;
+          return date ? moment(date).format("LL") : "---";
+        },
         enableColumnFilter: false,
       },
       {
@@ -278,11 +155,11 @@ const DealFrom = ({ getInitialValues, updatedUser }: any) => {
               <div className="card-body pt-0">
                 {loader && <Loader />}
                 <div>
-                  {DealList.length ? (
+                  {dealList.length ? (
                     <TableContainer
                       isHeaderTitle={`${dealLabel.Title} List`}
                       columns={columns}
-                      data={DealList || []}
+                      data={dealList || []}
                       isGlobalFilter={true}
                       customPageSize={5}
                       theadClass="table-light text-muted"

@@ -30,7 +30,7 @@ import { dynamicFind } from "helpers/service";
 import { register, updateProfile } from "api/usersApi";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { dealLabel } from "Components/constants/deal";
+import { dealKey, dealLabel } from "Components/constants/deal";
 
 type SelectedOption = { label: string; value: string };
 type Payload = {
@@ -237,25 +237,29 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                         />
                       </Col>
                       <Col lg={4} md={4} sm={6} className="mb-2">
-                        <BaseInput
-                          label={dealLabel.Owner_mobile}
-                          name={dealLabel.Owner_mobile}
-                          type="text"
-                          placeholder={InputPlaceHolder(dealLabel.Owner_mobile)}
-                          handleChange={validation.handleChange}
-                          handleBlur={validation.handleBlur}
-                          value={validation.values.owner_mobile}
-                          touched={validation.touched.owner_mobile}
-                          error={validation.errors.owner_mobile}
-                          passwordToggle={false}
-                        />
+                      <BaseInput
+                      label={dealLabel.Owner_mobile}
+                      name="owner_mobile"
+                      type="number"
+                      placeholder={InputPlaceHolder(dealLabel.Owner_mobile)}
+                      handleChange={validation.handleChange}
+                      handleBlur={validation.handleBlur}
+                      value={validation.values.owner_mobile}
+                      touched={validation.touched.owner_mobile}
+                      error={validation.errors.owner_mobile}
+                      passwordToggle={false}
+                      onKeyPress={() => {
+                        if (validation.value.owner_mobile.length == 10)
+                          return false;
+                      }}
+                    />
                       </Col>
                     </Row>
                     <Row className="mb-2">
                       <Col lg={4} md={4} sm={6} className="mb-2">
                         <BaseInput
                           label={dealLabel.Inquire_number}
-                          name={dealLabel.Inquire_number}
+                          name="inquiry_number"
                           type="number"
                           placeholder={InputPlaceHolder(
                             dealLabel.Inquire_number
@@ -275,7 +279,7 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                       <Col lg={4} md={4} sm={12} className="mb-2">
                         <BaseInput
                           label={dealLabel.Email}
-                          name={dealLabel.Email}
+                          name="email"
                           type="text"
                           placeholder={InputPlaceHolder(dealLabel.Email)}
                           handleChange={validation.handleChange}
@@ -313,8 +317,8 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                       <Col lg={4} md={4} sm={6} className="mb-2">
                         <BaseInput
                           label={dealLabel.PinCode}
-                          name={dealLabel.PinCode}
-                          type="text"
+                          name={dealKey.PinCode}
+                          type="number"
                           placeholder={InputPlaceHolder(dealLabel.PinCode)}
                           handleChange={validation.handleChange}
                           handleBlur={validation.handleBlur}
@@ -322,6 +326,10 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                           touched={validation.touched.pin_code}
                           error={validation.errors.pin_code}
                           passwordToggle={false}
+                          onKeyPress={() => {
+                            if (validation.value.pin_code.length == 6)
+                              return false;
+                          }}
                         />
                       </Col>
                       <Col lg={4} md={4} sm={6} className="mb-2">

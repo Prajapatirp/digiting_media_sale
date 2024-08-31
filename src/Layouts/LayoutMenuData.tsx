@@ -67,6 +67,19 @@ const NavData = () => {
       isHeader: true,
     },
     {
+      id: "dashBoard",
+      label: dashboard,
+      icon: "ri-calendar-check-line",
+      link: "/",
+      click: function (e: any) {
+        e.preventDefault();
+        setIsTaskAllocation(!isDashboard);
+        setIsCurrentState(dashboard);
+        updateIconSidebar(e);
+      },
+      stateVariables: isDashboard,
+    },
+    {
       id: "Service",
       label: master,
       icon: "ri-apps-2-line",
@@ -79,24 +92,24 @@ const NavData = () => {
       },
       stateVariables: isService,
       subItems: [
-        {
-          id: "Service",
-          label: service,
-          link: "/master-services",
-          parentId: "Service",
-        },
+        // {
+        //   id: "Service",
+        //   label: service,
+        //   link: "/master-services",
+        //   parentId: "Service",
+        // },
         {
           id: "Employee",
           label: stackHolder,
           link: "/dealer",
           parentId: "Service",
         },
-        {
-          id: "Project",
-          label: project,
-          link: "/project",
-          parentId: "Service",
-        },
+        // {
+        //   id: "Project",
+        //   label: project,
+        //   link: "/project",
+        //   parentId: "Service",
+        // },
         {
           id: "Deal",
           label: deal,
