@@ -15,7 +15,6 @@ import { listOfDeal } from "api/deal";
 import { errorHandle } from "helpers/service";
 import moment from "moment";
 
-
 const DealFrom = () => {
   const [loader, setLoader] = useState<boolean>(true);
   const [dealList, setDealList] = useState<any>([]);
