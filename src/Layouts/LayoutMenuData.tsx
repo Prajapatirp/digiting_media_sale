@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   dashboard,
+  deal,
   employee,
   master,
   project,
@@ -66,6 +67,19 @@ const NavData = () => {
       isHeader: true,
     },
     {
+      id: "dashBoard",
+      label: dashboard,
+      icon: "ri-calendar-check-line",
+      link: "/",
+      click: function (e: any) {
+        e.preventDefault();
+        setIsTaskAllocation(!isDashboard);
+        setIsCurrentState(dashboard);
+        updateIconSidebar(e);
+      },
+      stateVariables: isDashboard,
+    },
+    {
       id: "Service",
       label: master,
       icon: "ri-apps-2-line",
@@ -78,22 +92,28 @@ const NavData = () => {
       },
       stateVariables: isService,
       subItems: [
-        {
-          id: "Service",
-          label: service,
-          link: "/master-services",
-          parentId: "Service",
-        },
+        // {
+        //   id: "Service",
+        //   label: service,
+        //   link: "/master-services",
+        //   parentId: "Service",
+        // },
         {
           id: "Employee",
           label: stackHolder,
-          link: "/stack-holder",
+          link: "/dealer",
           parentId: "Service",
         },
+        // {
+        //   id: "Project",
+        //   label: project,
+        //   link: "/project",
+        //   parentId: "Service",
+        // },
         {
-          id: "Project",
-          label: project,
-          link: "/project",
+          id: "Deal",
+          label: deal,
+          link: "/deal",
           parentId: "Service",
         },
       ],

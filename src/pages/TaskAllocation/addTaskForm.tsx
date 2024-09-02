@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RequiredField } from "Components/constants/requireMsg";
-import { managerList, taskLabels } from "Components/constants/taskAllocation";
+import { taskLabels } from "Components/constants/taskAllocation";
 import {
   Card,
   CardBody,
@@ -42,7 +42,6 @@ import {
 } from "Components/constants/common";
 import { listOfProject } from "api/projectApi";
 import { addTaskApi, editTaskApi, listOfUnit, taskListApi } from "api/taskApi";
-import { Session } from "inspector";
 type UserList = {
   id?: number;
   name?: string;
