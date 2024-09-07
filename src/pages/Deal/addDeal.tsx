@@ -23,7 +23,11 @@ import Loader from "Components/Base/Loader";
 import BaseInput from "Components/Base/BaseInput";
 import { BaseSelect } from "Components/Base/BaseSelect";
 import BaseButton from "Components/Base/BaseButton";
-import { employeeLabel, roleType } from "Components/constants/employee";
+import {
+  employeeLabel,
+  monthType,
+  roleType,
+} from "Components/constants/employee";
 import { userLabel } from "Components/constants/users";
 import { ButtonEnums, CREATED, SUCCESS } from "Components/emus/emus";
 import { dynamicFind } from "helpers/service";
@@ -31,6 +35,7 @@ import { register, updateProfile } from "api/usersApi";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { dealKey, dealLabel } from "Components/constants/deal";
+import Flatpickr from "react-flatpickr";
 
 type SelectedOption = { label: string; value: string };
 type Payload = {
@@ -78,8 +83,8 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
           validationMessages.contactLength(userLabel.contact, 10)
         ),
       password:
-        getInitialValues === null
-          ? isRole === roleEnums.Dealer
+        getInitialValues == null
+          ? isRole == roleEnums.Dealer
             ? Yup.string()
                 .required(validationMessages.required(userLabel.password))
                 .min(
@@ -93,8 +98,8 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
             : Yup.string().optional()
           : Yup.string(),
       confirmPassword:
-        getInitialValues === null
-          ? isRole === roleEnums.Dealer
+        getInitialValues == null
+          ? isRole == roleEnums.Dealer
             ? Yup.string()
                 .required(
                   validationMessages.required(userLabel.confirmPassword)
@@ -176,6 +181,14 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
     setIsRole(getInitialValue?.role || roleEnums?.Dealer);
   }, [getInitialValues]);
 
+  const [newImage, setNewImage] = useState(null);
+
+  const uploadImage = (e: any) => {
+    setNewImage(e?.target?.files[0]);
+  };
+
+  console.log("newImage", newImage);
+
   return (
     <div className="page-content">
       <Container>
@@ -237,22 +250,22 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                         />
                       </Col>
                       <Col lg={4} md={4} sm={6} className="mb-2">
-                      <BaseInput
-                      label={dealLabel.Owner_mobile}
-                      name="owner_mobile"
-                      type="number"
-                      placeholder={InputPlaceHolder(dealLabel.Owner_mobile)}
-                      handleChange={validation.handleChange}
-                      handleBlur={validation.handleBlur}
-                      value={validation.values.owner_mobile}
-                      touched={validation.touched.owner_mobile}
-                      error={validation.errors.owner_mobile}
-                      passwordToggle={false}
-                      onKeyPress={() => {
-                        if (validation.value.owner_mobile.length == 10)
-                          return false;
-                      }}
-                    />
+                        <BaseInput
+                          label={dealLabel.Owner_mobile}
+                          name="owner_mobile"
+                          type="number"
+                          placeholder={InputPlaceHolder(dealLabel.Owner_mobile)}
+                          handleChange={validation.handleChange}
+                          handleBlur={validation.handleBlur}
+                          value={validation.values.owner_mobile}
+                          touched={validation.touched.owner_mobile}
+                          error={validation.errors.owner_mobile}
+                          passwordToggle={false}
+                          onKeyPress={() => {
+                            if (validation.value.owner_mobile.length == 10)
+                              return false;
+                          }}
+                        />
                       </Col>
                     </Row>
                     <Row className="mb-2">
@@ -333,7 +346,38 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                         />
                       </Col>
                       <Col lg={4} md={4} sm={6} className="mb-2">
-                        <BaseInput
+                        <label
+                          htmlFor="task-duedate-input"
+                          className="form-label">
+                          {dealLabel.Contract_start_date}
+                        </label>
+                        <Flatpickr
+                          name="contract_date"
+                          id="date-field"
+                          className={`form-select ${
+                            validation.errors.contract_date && "is-invalid"
+                          }`}
+                          placeholder={InputPlaceHolder(
+                            dealLabel.Contract_start_date
+                          )}
+                          value={validation.values.contract_date}
+                          options={{
+                            altInput: true,
+                            altFormat: "F j, Y",
+                            dateFormat: "Y-m-d",
+                            onChange: function (
+                              selectedDates,
+                              dateStr,
+                              instance
+                            ) {
+                              validation
+                                .setFieldValue("contract_date", dateStr)
+                                .then((res: any) => res)
+                                .catch((err: any) => err);
+                            },
+                          }}
+                        />
+                        {/* <BaseInput
                           label={dealLabel.Contract_start_date}
                           name="contract_date"
                           type="text"
@@ -346,22 +390,39 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                           touched={validation.touched.contract_date}
                           error={validation.errors.contract_date}
                           passwordToggle={false}
-                        />
+                        /> */}
                       </Col>
                       <Col lg={4} md={4} sm={6} className="mb-2">
-                        <BaseInput
-                          label={dealLabel.Contract_end_date}
-                          name={dealLabel.Contract_end_date}
-                          type="text"
+                        <label
+                          htmlFor="task-duedate-input"
+                          className="form-label">
+                          {dealLabel.Contract_end_date}
+                        </label>
+                        <Flatpickr
+                          name="contract_end_date"
+                          id="date-field"
+                          className={`form-select ${
+                            validation.errors.contract_end_date && "is-invalid"
+                          }`}
                           placeholder={InputPlaceHolder(
-                            dealLabel.Contract_end_date
+                            dealLabel.Contract_start_date
                           )}
-                          handleChange={validation.handleChange}
-                          handleBlur={validation.handleBlur}
                           value={validation.values.contract_end_date}
-                          touched={validation.touched.contract_end_date}
-                          error={validation.errors.contract_end_date}
-                          passwordToggle={false}
+                          options={{
+                            altInput: true,
+                            altFormat: "F j, Y",
+                            dateFormat: "Y-m-d",
+                            onChange: function (
+                              selectedDates,
+                              dateStr,
+                              instance
+                            ) {
+                              validation
+                                .setFieldValue("contract_end_date", dateStr)
+                                .then((res: any) => res)
+                                .catch((err: any) => err);
+                            },
+                          }}
                         />
                       </Col>
                     </Row>
@@ -381,17 +442,26 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                         />
                       </Col>
                       <Col lg={4} md={4} sm={6} className="mb-2">
-                        <BaseInput
+                        <BaseSelect
                           label={dealLabel.Month}
                           name="month"
-                          type="text"
+                          className="select-border"
+                          options={monthType}
                           placeholder={InputPlaceHolder(dealLabel.Month)}
-                          handleChange={validation.handleChange}
+                          handleChange={(selectedOption: SelectedOption) => {
+                            validation.setFieldValue(
+                              "month",
+                              selectedOption?.value || ""
+                            );
+                            setIsRole(selectedOption?.value);
+                          }}
                           handleBlur={validation.handleBlur}
-                          value={validation.values.month}
+                          value={
+                            dynamicFind(monthType, validation.values.month) ||
+                            ""
+                          }
                           touched={validation.touched.month}
                           error={validation.errors.month}
-                          passwordToggle={false}
                         />
                       </Col>
                       <Col lg={4} md={4} sm={6} className="mb-2">
@@ -478,7 +548,7 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                         <BaseInput
                           label={dealLabel.Description}
                           name="description"
-                          type="text"
+                          type="textarea"
                           placeholder={InputPlaceHolder(dealLabel.Description)}
                           handleChange={validation.handleChange}
                           handleBlur={validation.handleBlur}
@@ -491,31 +561,21 @@ const FormListOfDeal = ({ getInitialValues, updatedUser }: any) => {
                       <Col lg={3} md={4} sm={6} className="mb-2">
                         <BaseInput
                           label={dealLabel.Contract_images}
-                          name="contract_images"
-                          type="text"
-                          placeholder={InputPlaceHolder(
-                            dealLabel.Contract_images
-                          )}
-                          handleChange={validation.handleChange}
-                          handleBlur={validation.handleBlur}
-                          value={validation.values.contract_images}
-                          touched={validation.touched.contract_images}
-                          error={validation.errors.contract_images}
-                          passwordToggle={false}
+                          type="file"
+                          id="task-title2"
+                          className="form-control"
+                          placeholder="Enter task title"
+                          handleChange={(e: any) => uploadImage(e)}
                         />
                       </Col>
                       <Col lg={3} md={4} sm={6} className="mb-2">
                         <BaseInput
                           label={dealLabel.Check_images}
-                          name="check_image"
-                          type="text"
-                          placeholder={InputPlaceHolder(dealLabel.Check_images)}
-                          handleChange={validation.handleChange}
-                          handleBlur={validation.handleBlur}
-                          value={validation.values.check_image}
-                          touched={validation.touched.check_image}
-                          error={validation.errors.check_image}
-                          passwordToggle={false}
+                          type="file"
+                          id="task-title3"
+                          className="form-control"
+                          placeholder="Enter task title"
+                          handleChange={(e: any) => uploadImage(e)}
                         />
                       </Col>
                     </Row>

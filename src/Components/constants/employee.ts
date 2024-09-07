@@ -65,6 +65,13 @@ export const roleType = [
   { label: "Dealer", value: "Dealer" },
 ];
 
+export const monthType = [
+  { label: "3 Month", value: "3" },
+  { label: "6 Month", value: "6" },
+  { label: "9 Month", value: "9" },
+  { label: "12 Month", value: "12" },
+];
+
 export const designationType = [
   {
     options: [
