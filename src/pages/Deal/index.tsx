@@ -85,19 +85,18 @@ const DealFrom = () => {
         header: employeeLabel.Action,
         cell: (cell: { row: { original: { id: number } } }) => (
           <div className="hstack gap-2">
-            <BaseButton
-              id={`editMode-${cell?.row?.original?.id}`}
-              className="btn btn-sm btn-soft-secondary edit-list"
-              // onClick={() => setGetInitialValues(cell?.row?.original)}
-            >
+            <Link
+              to={`/deal/edit-deal/${cell?.row?.original?.id}`}
+              className="btn btn-sm btn-soft-info edit-list"
+              id={`editBde-${cell?.row?.original?.id}`}>
               <i className="ri-pencil-fill align-bottom" />
-              <ReactTooltip
-                place="bottom"
-                variant="info"
-                content="Edit"
-                anchorId={`editMode-${cell?.row?.original?.id}`}
-              />
-            </BaseButton>
+            </Link>
+            <ReactTooltip
+              place="bottom"
+              variant="info"
+              content="Edit"
+              anchorId={`editMode-${cell?.row?.original?.id}`}
+            />
             <BaseButton
               id={`delete-${cell?.row?.original?.id}`}
               className="btn btn-sm btn-soft-danger remove-list"
@@ -113,7 +112,19 @@ const DealFrom = () => {
                 anchorId={`delete-${cell?.row?.original?.id}`}
               />
             </BaseButton>
-            <BaseButton
+            <Link
+              to={`/deal/view-deal/${cell?.row?.original?.id}`}
+              className="btn btn-sm btn-soft-info edit-list"
+              id={`usage-${cell?.row?.original?.id}`}>
+              <i className="ri-eye-fill align-bottom" />
+            </Link>
+            <ReactTooltip
+              place="bottom"
+              variant="success"
+              content="View"
+              anchorId={`usage-${cell?.row?.original?.id}`}
+            />
+            {/* <BaseButton
               id={`usage-${cell?.row?.original?.id}`}
               className="btn btn-sm btn-soft-success usage-list"
               // onClick={() => {
@@ -127,7 +138,7 @@ const DealFrom = () => {
                 content="View"
                 anchorId={`usage-${cell?.row?.original?.id}`}
               />
-            </BaseButton>
+            </BaseButton> */}
           </div>
         ),
       },

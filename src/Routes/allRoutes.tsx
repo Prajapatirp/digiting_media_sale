@@ -24,6 +24,8 @@ const authProtectedRoutes = [
   { path: "/master-services", component: <MasterServices /> },
   { path: "/dealer", component: <Employee /> },
   { path: "/deal", component: <DealFrom /> },
+  { path: "/deal/edit-deal/:dealId", component: <FormListOfDeal /> },
+  { path: "/deal/view-deal/:dealId", component: <FormListOfDeal /> },
   { path: "/deal-form", component: <FormListOfDeal /> },
   { path: "/add-task", component: <TaskAllocationSteps /> },
   { path: "/edit-task/:id", component: <TaskAllocationSteps /> },

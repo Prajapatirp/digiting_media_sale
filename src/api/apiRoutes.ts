@@ -12,13 +12,13 @@ export const CHANGEPASSWORD = '/resetPassword'
 export const FILEUPLOAD = '/fileUploads'
 
 //Deal
-
+export const CREATE_DEAL = '/deal'
 export const LIST_OF_DEAL = '/deal/listOfDeal';
 //List APis
 export const LIST_CITY = '/listOfCity';
 export const LIST_STATE = '/listOfState';
 export const LIST_DESIGNATION = '/listOfDesignation';
-export const LIST_SERVICE = '/service/list';
+export const LIST_SERVICE = '/package/list';
 export const LIST_OF_VENDOR_SERVICE = '/service/listUserService';
 
 //Master Service

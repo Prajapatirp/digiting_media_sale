@@ -15,7 +15,7 @@ export const dealLabel = {
   Payment_selection: "Payment Selection",
   Customer_address: "Customer Address",
   Listing: "If Have Listing?",
-  Description: "note",
+  Description: "Note",
   Contract_images: "Contract Images",
   Check_images: "Check Images",
   Action : "Action"
