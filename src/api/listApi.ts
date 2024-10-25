@@ -22,7 +22,7 @@ export const listOfDesignation = async (data: object) => {
   return response?.data;
 };
 
-export const listOfService = async (data: object) => {
+export const listOfService = async (data?: object) => {
   const response = await authServices.post(`${LIST_SERVICE}`, data);
   return response?.data;
 };

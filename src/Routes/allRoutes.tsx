@@ -14,13 +14,19 @@ import UpdatePassword from "pages/Authentication/UpdatePassword";
 import Employee from "pages/Employee";
 import Project from "pages/Project";
 import Profile from "pages/Manager Profile/Profile";
+import DealFrom from "pages/Deal";
+import FormListOfDeal from "pages/Deal/addDeal";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
   { path: "/index", component: <Dashboard /> },
   { path: "/task-allocation", component: <TaskAllocation /> },
   { path: "/master-services", component: <MasterServices /> },
-  { path: "/stack-holder", component: <Employee /> },
+  { path: "/dealer", component: <Employee /> },
+  { path: "/deal", component: <DealFrom /> },
+  { path: "/deal/edit-deal/:dealId", component: <FormListOfDeal /> },
+  { path: "/deal/view-deal/:dealId", component: <FormListOfDeal /> },
+  { path: "/deal-form", component: <FormListOfDeal /> },
   { path: "/add-task", component: <TaskAllocationSteps /> },
   { path: "/edit-task/:id", component: <TaskAllocationSteps /> },
   { path: "/project", component: <Project /> },
