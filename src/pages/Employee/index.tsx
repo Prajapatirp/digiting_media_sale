@@ -138,9 +138,6 @@ const Employee = () => {
       {
         header: employeeLabel.Date,
         accessorKey: employeeKey.Date,
-        // cell: (cell: any) => {
-        //   moment(cell?.row?.original?.createdAt).format('ddmmyyyy')
-        // },
         enableColumnFilter: false,
       },
       {
@@ -150,8 +147,7 @@ const Employee = () => {
             <BaseButton
               id={`editMode-${cell?.row?.original?.id}`}
               className="btn btn-sm btn-soft-secondary edit-list"
-              onClick={() => setGetInitialValues(cell?.row?.original)}
-            >
+              onClick={() => setGetInitialValues(cell?.row?.original)}>
               <i className="ri-pencil-fill align-bottom" />
               <ReactTooltip
                 place="bottom"
@@ -165,8 +161,7 @@ const Employee = () => {
               className="btn btn-sm btn-soft-danger remove-list"
               onClick={() => {
                 onClickDelete(cell?.row?.original?.id);
-              }}
-            >
+              }}>
               <i className="ri-delete-bin-5-fill align-bottom" />
               <ReactTooltip
                 place="bottom"
@@ -180,8 +175,7 @@ const Employee = () => {
               className="btn btn-sm btn-soft-success usage-list"
               onClick={() => {
                 toggleEmployeeModal(cell?.row?.original?.id);
-              }}
-            >
+              }}>
               <i className="ri-eye-fill align-bottom" />
               <ReactTooltip
                 place="bottom"
@@ -211,12 +205,10 @@ const Employee = () => {
           isOpen={employeeDetailsModal}
           toggle={toggleEmployeeModal}
           modalClassName="zoomIn"
-          centered
-        >
+          centered>
           <ModalHeader
             toggle={toggleEmployeeModal}
-            className="p-3 bg-light p-3"
-          >
+            className="p-3 bg-light p-3">
             {employeeLabel.EmployeeDetails}
           </ModalHeader>
           {modalLoader && <Loader />}
@@ -226,7 +218,7 @@ const Employee = () => {
                 <Label className="label-Font">{employeeLabel.firstName}</Label>
               </Col>
               <Col lg={8} md={8} sm={8}>
-                {viewEmployeeDetails?.name}
+                {viewEmployeeDetails?.fullName}
               </Col>
             </Row>
             <Row className="mb-2">
@@ -242,7 +234,7 @@ const Employee = () => {
                 <Label className="label-Font">{employeeLabel.ContactNo}</Label>
               </Col>
               <Col lg={8} md={8} sm={8}>
-                {viewEmployeeDetails?.contact_no}
+                {viewEmployeeDetails?.phone_no}
               </Col>
             </Row>
             <Row className="mb-2">
@@ -253,21 +245,12 @@ const Employee = () => {
                 {viewEmployeeDetails?.role}
               </Col>
             </Row>
-            <Row className="mb-2">
-              <Col lg={4} md={4} sm={4}>
-                <Label className="label-Font">{employeeLabel.State}</Label>
-              </Col>
-              <Col lg={8} md={8} sm={8}>
-                {viewEmployeeDetails?.state}
-              </Col>
-            </Row>
           </ModalBody>
         </Modal>
         <BreadCrumb title={employeeLabel.Title} pageTitle={projectTitle} />
         <EmployeeForm
           getInitialValues={getInitialValues || null}
-          updatedUser={updatedUser}
-        ></EmployeeForm>
+          updatedUser={updatedUser}></EmployeeForm>
         <Row>
           <Col lg={12}>
             <Card id="customerList">

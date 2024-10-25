@@ -14,6 +14,7 @@ export const FILEUPLOAD = '/fileUploads'
 //Deal
 export const CREATE_DEAL = '/deal'
 export const LIST_OF_DEAL = '/deal/listOfDeal';
+export const COUNT_OF_DEAL = '/deal/count';
 //List APis
 export const LIST_CITY = '/listOfCity';
 export const LIST_STATE = '/listOfState';

@@ -39,7 +39,18 @@ const EmployeeForm = ({ getInitialValues, updatedUser }: any) => {
   const [passwordShow, setPasswordShow] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<boolean>(false);
   const [isRole, setIsRole] = useState<string>(roleEnums.Dealer);
-  let getInitialValue = getInitialValues;
+
+  let getInitialValue = {
+    id: getInitialValues?.id,
+    firstName: getInitialValues?.first_name,
+    lastName: getInitialValues?.last_name,
+    middleName: getInitialValues?.middle_name,
+    email: getInitialValues?.email,
+    contact_no: getInitialValues?.phone_no,
+    password: "",
+    confirmPassword: "",
+    role: getInitialValues?.role,
+  };
 
   const validation: any = useFormik({
     enableReinitialize: true,

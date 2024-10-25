@@ -241,7 +241,9 @@ const FormListOfDeal = ({ updatedUser }: any) => {
   }, []);
 
   useEffect(() => {
-    viewDeal(dealId);
+    if (dealId) {
+      viewDeal(dealId);
+    }
   }, [dealId]);
 
   const selectedServiceObj = Array.isArray(serviceData)

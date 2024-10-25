@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardBody,
@@ -14,15 +14,38 @@ import Widgets from "./Widgets";
 import { Link } from "react-router-dom";
 import avatar from "../../assets/image/avatar-1.jpg";
 import PreviewCardHeader from "Components/Base/PreviewCardHeader";
+import { countDeal } from "api/deal";
+import { OK, SUCCESS } from "Components/emus/emus";
+import { errorHandle } from "helpers/service";
 
 const Dashboard = () => {
   document.title =
     "Dashboard | DigitingMedia - React Admin & Dashboard Template";
 
   const [rightColumn, setRightColumn] = useState<boolean>(true);
+  const [countData, setCountData] = useState<any>({});
+  const [loader, setLoader] = useState<boolean>(true);
   const toggleRightColumn = () => {
     setRightColumn(!rightColumn);
   };
+
+  function dealLists() {
+    countDeal()
+      .then((res) => {
+        if (res?.statusCode === OK && res?.status === SUCCESS) {
+          setCountData(res?.data);
+        } 
+      })
+      .catch((error) => {
+        errorHandle(error);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  }
+  useEffect(() => {
+    dealLists();
+  }, []);
 
   return (
     <div className="page-content">
@@ -31,15 +54,15 @@ const Dashboard = () => {
           <Col>
             <div className="h-100">
               <Row>
-              <Section rightClickBtn={toggleRightColumn} />
+                <Section rightClickBtn={toggleRightColumn} />
               </Row>
               <Row>
-              <Widgets />
+                <Widgets countDetails={countData}/>
               </Row>
               <Row>
                 <Col xl={12}>
                   <Card>
-                  <PreviewCardHeader title="Variants" />
+                    <PreviewCardHeader title="Variants" />
                     <CardBody>
                       <div className="live-preview">
                         <div className="table-responsive">

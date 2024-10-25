@@ -11,18 +11,22 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import { dealKey, dealLabel } from "Components/constants/deal";
 import BreadCrumb from "Components/Base/BreadCrumb";
 import { Link } from "react-router-dom";
-import { listOfDeal } from "api/deal";
+import { deleteDeal, listOfDeal } from "api/deal";
 import { errorHandle } from "helpers/service";
 import moment from "moment";
+import DeleteModal from "Components/Base/DeleteModal";
 
 const DealFrom = () => {
   const [loader, setLoader] = useState<boolean>(true);
   const [dealList, setDealList] = useState<any>([]);
+  const [serviceDeleteModel, setServicesDeleteModel] = useState<boolean>(false);
+  const [deleteID, setDeleteID] = useState<number>();
+  const [deleteLoader, setDeleteLoader] = useState<boolean>(false);
 
-  useEffect(() => {
+  function dealLists() {
     listOfDeal()
       .then((res) => {
-        if (res?.statusCode === OK && res?.status === SUCCESS) {
+        if (res?.statusCode === OK && res?.status === SUCCESS) {          
           setDealList(res?.data);
         } else {
           toast.error(res?.message);
@@ -34,7 +38,33 @@ const DealFrom = () => {
       .finally(() => {
         setLoader(false);
       });
+  }
+  useEffect(() => {
+    dealLists();
   }, []);
+
+  const onClickDelete = (id: number) => {
+    setServicesDeleteModel(true);
+    setDeleteID(id);
+  };
+
+  function deleteRecord() {
+    setDeleteLoader(true);
+    deleteDeal(deleteID)
+      .then((res) => {
+        if (res?.statusCode === OK && res?.status === SUCCESS) {
+          setServicesDeleteModel(false);
+          toast.success(res?.message);
+          dealLists();
+        } else {
+          toast.success(res?.message);
+        }
+      })
+      .catch((error) => {
+        errorHandle(error);
+      })
+      .finally(() => setDeleteLoader(false));
+  }
 
   const columns = useMemo(
     () => [
@@ -100,10 +130,9 @@ const DealFrom = () => {
             <BaseButton
               id={`delete-${cell?.row?.original?.id}`}
               className="btn btn-sm btn-soft-danger remove-list"
-              // onClick={() => {
-              //   onClickDelete(cell?.row?.original?.id);
-              // }}
-            >
+              onClick={() => {
+                onClickDelete(cell?.row?.original?.id);
+              }}>
               <i className="ri-delete-bin-5-fill align-bottom" />
               <ReactTooltip
                 place="bottom"
@@ -124,21 +153,6 @@ const DealFrom = () => {
               content="View"
               anchorId={`usage-${cell?.row?.original?.id}`}
             />
-            {/* <BaseButton
-              id={`usage-${cell?.row?.original?.id}`}
-              className="btn btn-sm btn-soft-success usage-list"
-              // onClick={() => {
-              //   toggleEmployeeModal(cell?.row?.original?.id);
-              // }}
-            >
-              <i className="ri-eye-fill align-bottom" />
-              <ReactTooltip
-                place="bottom"
-                variant="success"
-                content="View"
-                anchorId={`usage-${cell?.row?.original?.id}`}
-              />
-            </BaseButton> */}
           </div>
         ),
       },
@@ -184,6 +198,13 @@ const DealFrom = () => {
             </Card>
           </Col>
         </Row>
+
+        <DeleteModal
+          show={serviceDeleteModel}
+          onDeleteClick={deleteRecord}
+          onCloseClick={() => setServicesDeleteModel(false)}
+          loader={deleteLoader}
+        />
       </Container>
     </div>
   );
