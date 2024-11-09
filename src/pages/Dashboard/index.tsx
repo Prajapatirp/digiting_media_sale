@@ -1,22 +1,14 @@
-import { useEffect, useState } from "react";
-import {
-  Card,
-  CardBody,
-  Col,
-  Container,
-  Input,
-  Label,
-  Row,
-  Table,
-} from "reactstrap";
+import { useEffect, useMemo, useState } from "react";
+import { Card, Col, Container, Row } from "reactstrap";
 import Section from "./Section";
 import Widgets from "./Widgets";
-import { Link } from "react-router-dom";
-import avatar from "../../assets/image/avatar-1.jpg";
-import PreviewCardHeader from "Components/Base/PreviewCardHeader";
 import { countDeal } from "api/deal";
-import { OK, SUCCESS } from "Components/emus/emus";
+import { OK, SUCCESS, getItem } from "Components/emus/emus";
 import { errorHandle } from "helpers/service";
+import { listOfUser } from "api/listApi";
+import { employeeKey, employeeLabel } from "Components/constants/employee";
+import TableContainer from "Components/Base/TableContainer";
+import { searchPlaceHolder } from "Components/constants/common";
 
 const Dashboard = () => {
   document.title =
@@ -25,16 +17,37 @@ const Dashboard = () => {
   const [rightColumn, setRightColumn] = useState<boolean>(true);
   const [countData, setCountData] = useState<any>({});
   const [loader, setLoader] = useState<boolean>(true);
+  const [listOfUsers, setListOfUsers] = useState([]);
   const toggleRightColumn = () => {
     setRightColumn(!rightColumn);
   };
+  const role = getItem("role");
+
+  function fetchData() {
+    let condition: any = {
+      is_deleted: false,
+      is_active: false,
+    };
+
+    listOfUser({ condition })
+      .then((res) => {
+        if (res?.statusCode === OK && res?.status === SUCCESS) {
+          setListOfUsers(res?.data);
+        } else {
+          setListOfUsers([]);
+        }
+      })
+      .catch((error) => {
+        errorHandle(error);
+      });
+  }
 
   function dealLists() {
     countDeal()
       .then((res) => {
         if (res?.statusCode === OK && res?.status === SUCCESS) {
           setCountData(res?.data);
-        } 
+        }
       })
       .catch((error) => {
         errorHandle(error);
@@ -43,9 +56,42 @@ const Dashboard = () => {
         setLoader(false);
       });
   }
+
   useEffect(() => {
     dealLists();
+    fetchData();
   }, []);
+
+  const columns = useMemo(
+    () => [
+      {
+        header: employeeLabel.name,
+        accessorKey: employeeKey.Name,
+        enableColumnFilter: false,
+      },
+      {
+        header: employeeLabel.Email,
+        accessorKey: employeeKey.Email,
+        enableColumnFilter: false,
+      },
+      {
+        header: employeeLabel.ContactNo,
+        accessorKey: employeeKey.ContactNo,
+        enableColumnFilter: false,
+      },
+      {
+        header: employeeLabel.Role,
+        accessorKey: employeeKey.Role,
+        enableColumnFilter: false,
+      },
+      {
+        header: employeeLabel.Date,
+        accessorKey: employeeKey.Date,
+        enableColumnFilter: false,
+      },
+    ],
+    []
+  );
 
   return (
     <div className="page-content">
@@ -57,257 +103,33 @@ const Dashboard = () => {
                 <Section rightClickBtn={toggleRightColumn} />
               </Row>
               <Row>
-                <Widgets countDetails={countData}/>
+                <Widgets countDetails={countData} />
               </Row>
-              <Row>
-                <Col xl={12}>
-                  <Card>
-                    <PreviewCardHeader title="Variants" />
-                    <CardBody>
-                      <div className="live-preview">
-                        <div className="table-responsive">
-                          <Table className="align-middle table-nowrap mb-0">
-                            <thead className="table-light">
-                              <tr>
-                                <th scope="col" style={{ width: "42px" }}>
-                                  <div className="form-check">
-                                    <Input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      defaultValue=""
-                                      id="responsivetableCheck"
-                                    />
-                                    <Label
-                                      className="form-check-label"
-                                      htmlFor="responsivetableCheck"></Label>
-                                  </div>
-                                </th>
-                                <th scope="col">ID</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Customer</th>
-                                <th scope="col">Purchased</th>
-                                <th scope="col">Revenue</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">
-                                  <div className="form-check">
-                                    <Input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      defaultValue=""
-                                      id="responsivetableCheck01"
-                                    />
-                                    <Label
-                                      className="form-check-label"
-                                      htmlFor="responsivetableCheck01"></Label>
-                                  </div>
-                                </th>
-                                <td>
-                                  <Link to="#w-medium">#VZ2110</Link>
-                                </td>
-                                <td>10 Oct, 14:47</td>
-                                <td className="text-success">
-                                  <i className="ri-checkbox-circle-line fs-17 align-middle"></i>{" "}
-                                  Paid
-                                </td>
-                                <td>
-                                  <div className="d-flex gap-2 align-items-center">
-                                    <div className="flex-shrink-0">
-                                      <img
-                                        src={avatar}
-                                        alt=""
-                                        className="avatar-xs rounded-circle"
-                                      />
-                                    </div>
-                                    <div className="flex-grow-1">
-                                      Jordan Kennedy
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>Mastering the grid</td>
-                                <td>$9.98</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <div className="form-check">
-                                    <Input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      defaultValue=""
-                                      id="responsivetableCheck02"
-                                    />
-                                    <Label
-                                      className="form-check-label"
-                                      htmlFor="responsivetableCheck02"></Label>
-                                  </div>
-                                </th>
-                                <td>
-                                  <Link to="#" className="fw-medium">
-                                    #VZ2109
-                                  </Link>
-                                </td>
-                                <td>17 Oct, 02:10</td>
-                                <td className="text-success">
-                                  <i className="ri-checkbox-circle-line fs-17 align-middle"></i>{" "}
-                                  Paid
-                                </td>
-                                <td>
-                                  <div className="d-flex gap-2 align-items-center">
-                                    <div className="flex-shrink-0">
-                                      <img
-                                        src={avatar}
-                                        alt=""
-                                        className="avatar-xs rounded-circle"
-                                      />
-                                    </div>
-                                    <div className="flex-grow-1">
-                                      Jackson Graham
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>Splashify</td>
-                                <td>$270.60</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <div className="form-check">
-                                    <Input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      defaultValue=""
-                                      id="responsivetableCheck03"
-                                    />
-                                    <Label
-                                      className="form-check-label"
-                                      htmlFor="responsivetableCheck03"></Label>
-                                  </div>
-                                </th>
-                                <td>
-                                  <Link to="#" className="fw-medium">
-                                    #VZ2108
-                                  </Link>
-                                </td>
-                                <td>26 Oct, 08:20</td>
-                                <td className="text-primary">
-                                  <i className="ri-refresh-line fs-17 align-middle"></i>{" "}
-                                  Refunded
-                                </td>
-                                <td>
-                                  <div className="d-flex gap-2 align-items-center">
-                                    <div className="flex-shrink-0">
-                                      <img
-                                        src={avatar}
-                                        alt=""
-                                        className="avatar-xs rounded-circle"
-                                      />
-                                    </div>
-                                    <div className="flex-grow-1">
-                                      Lauren Trujillo
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>Wireframing Kit for Figma</td>
-                                <td>$145.42</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <div className="form-check">
-                                    <Input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      defaultValue=""
-                                      id="responsivetableCheck04"
-                                    />
-                                    <Label
-                                      className="form-check-label"
-                                      htmlFor="responsivetableCheck04"></Label>
-                                  </div>
-                                </th>
-                                <td>
-                                  <Link to="#" className="fw-medium">
-                                    #VZ2107
-                                  </Link>
-                                </td>
-                                <td>02 Nov, 04:52</td>
-                                <td className="text-danger">
-                                  <i className="ri-close-circle-line fs-17 align-middle"></i>{" "}
-                                  Cancel
-                                </td>
-                                <td>
-                                  <div className="d-flex gap-2 align-items-center">
-                                    <div className="flex-shrink-0">
-                                      <img
-                                        src={avatar}
-                                        alt=""
-                                        className="avatar-xs rounded-circle"
-                                      />
-                                    </div>
-                                    <div className="flex-grow-1">
-                                      Curtis Weaver
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>Wireframing Kit for Figma</td>
-                                <td>$170.68</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <div className="form-check">
-                                    <Input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      defaultValue=""
-                                      id="responsivetableCheck05"
-                                    />
-                                    <Label
-                                      className="form-check-label"
-                                      htmlFor="responsivetableCheck05"></Label>
-                                  </div>
-                                </th>
-                                <td>
-                                  <Link to="#" className="fw-medium">
-                                    #VZ2106
-                                  </Link>
-                                </td>
-                                <td>10 Nov, 07:20</td>
-                                <td className="text-success">
-                                  <i className="ri-checkbox-circle-line fs-17 align-middle"></i>{" "}
-                                  Paid
-                                </td>
-                                <td>
-                                  <div className="d-flex gap-2 align-items-center">
-                                    <div className="flex-shrink-0">
-                                      <img
-                                        src={avatar}
-                                        alt=""
-                                        className="avatar-xs rounded-circle"
-                                      />
-                                    </div>
-                                    <div className="flex-grow-1">
-                                      Jason schuller
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>Splashify</td>
-                                <td>$350.87</td>
-                              </tr>
-                            </tbody>
-                            <tfoot className="table-light">
-                              <tr>
-                                <td colSpan={6}>Total</td>
-                                <td>$947.55</td>
-                              </tr>
-                            </tfoot>
-                          </Table>
+              {role === "Admin" && (
+                <Row>
+                  <Col lg={12}>
+                    <Card id="customerList">
+                      <div className="card-body pt-0">
+                        <div>
+                          {listOfUsers.length ? (
+                            <TableContainer
+                              isHeaderTitle={`${employeeLabel.Title} List`}
+                              columns={columns}
+                              data={listOfUsers || []}
+                              isGlobalFilter={true}
+                              customPageSize={5}
+                              theadClass="table-light text-muted"
+                              SearchPlaceholder={searchPlaceHolder}
+                            />
+                          ) : (
+                            <div className="py-4 text-center"></div>
+                          )}
                         </div>
                       </div>
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
+                    </Card>
+                  </Col>
+                </Row>
+              )}
             </div>
           </Col>
         </Row>

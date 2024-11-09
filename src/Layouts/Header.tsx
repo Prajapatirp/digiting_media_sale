@@ -25,7 +25,7 @@ const Header = ({ headerClass }: any) => {
             <div className="navbar-brand-box horizontal-logo">
               <Link to="/" className="logo logo-dark">
                 <span className="logo-lg">
-                  <img src={logoLight} alt="" height="30" />
+                  <img src={logoLight} alt="" height="90px" width="110px" />
                 </span>
               </Link>
 

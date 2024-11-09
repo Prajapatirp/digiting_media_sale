@@ -2,8 +2,6 @@ import { Navigate } from "react-router-dom";
 
 //Dashboard
 import Dashboard from "../pages/Dashboard";
-import TaskAllocation from "pages/TaskAllocation";
-import TaskAllocationSteps from "pages/TaskAllocation/addTaskForm";
 
 // //login
 import Login from "../pages/Authentication/Login";
@@ -20,15 +18,12 @@ import FormListOfDeal from "pages/Deal/addDeal";
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
   { path: "/index", component: <Dashboard /> },
-  { path: "/task-allocation", component: <TaskAllocation /> },
   { path: "/master-services", component: <MasterServices /> },
   { path: "/dealer", component: <Employee /> },
   { path: "/deal", component: <DealFrom /> },
   { path: "/deal/edit-deal/:dealId", component: <FormListOfDeal /> },
   { path: "/deal/view-deal/:dealId", component: <FormListOfDeal /> },
   { path: "/deal-form", component: <FormListOfDeal /> },
-  { path: "/add-task", component: <TaskAllocationSteps /> },
-  { path: "/edit-task/:id", component: <TaskAllocationSteps /> },
   { path: "/project", component: <Project /> },
   {
     path: "/",
@@ -36,7 +31,7 @@ const authProtectedRoutes = [
     component: <Navigate to="/dashboard" />,
   },
   { path: "*", component: <Navigate to="/dashboard" /> },
-  { path: "/profile", component: <Profile /> }
+  { path: "/profile", component: <Profile /> },
 ];
 
 const publicRoutes = [
