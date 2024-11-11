@@ -61,15 +61,15 @@ const Employee = () => {
   }
 
   function fetchData(id?: number) {
-    let condition: any = {};
+    let condition: any = {
+      is_deleted: false,
+      is_active: false
+    };
     if (id) {
       setModalLoader(true);
       condition.id = id;
-    } else {
-      setModalLoader(true);
-      condition.is_deleted = false;
     }
-
+    
     listOfUser({ condition })
       .then((res) => {
         if (res?.statusCode === OK && res?.status === SUCCESS) {

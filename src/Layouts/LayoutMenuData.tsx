@@ -4,21 +4,20 @@ import {
   dashboard,
   deal,
   employee,
-  master,
   project,
-  service,
   stackHolder,
-  taskAllocation,
 } from "Components/constants/common";
+import { getItem } from "Components/emus/emus";
 
 const NavData = () => {
   const history = useNavigate();
   const [isDashboard, setIsDashboard] = useState<boolean>(false);
-  const [isService, setIsService] = useState<boolean>(false);
+  const [isDealer, setIsDealer] = useState<boolean>(false);
+  const [isDeal, setIsDeal] = useState<boolean>(false);
   const [isEmployee, setIsEmployee] = useState<boolean>(false);
-  const [isTaskAllocation, setIsTaskAllocation] = useState<boolean>(false);
   const [isCurrentState, setIsCurrentState] = useState("Dashboard");
   const [isProject, setIsProject] = useState<boolean>(false);
+  let role = getItem("role");
 
   function updateIconSidebar(e: any) {
     if (e && e.target && e.target.getAttribute("sub-items")) {
@@ -40,98 +39,102 @@ const NavData = () => {
     if (isCurrentState !== dashboard) {
       setIsDashboard(false);
     }
-    if (isCurrentState !== service) {
-      setIsService(false);
+    if (isCurrentState !== stackHolder) {
+      setIsDealer(false);
+    }
+    if (isCurrentState !== deal) {
+      setIsDeal(false);
     }
     if (isCurrentState !== employee) {
       setIsEmployee(false);
     }
-    if (isCurrentState !== taskAllocation) {
-      setIsTaskAllocation(false);
-    }
     if (isCurrentState !== project) {
       setIsProject(false);
     }
-  }, [
-    history,
-    isCurrentState,
-    isDashboard,
-    isTaskAllocation,
-    isService,
-    isEmployee,
-    isProject,
-  ]);
-  const menuItems: any = [
-    {
-      label: "Menu",
-      isHeader: true,
-    },
-    {
-      id: "dashBoard",
-      label: dashboard,
-      icon: "ri-calendar-check-line",
-      link: "/",
-      click: function (e: any) {
-        e.preventDefault();
-        setIsTaskAllocation(!isDashboard);
-        setIsCurrentState(dashboard);
-        updateIconSidebar(e);
+  }, [history, isCurrentState, isDashboard, isDealer, isEmployee, isProject]);
+
+  let menuItems: any;
+  if (role === "Admin") {
+    menuItems = [
+      {
+        label: "Menu",
+        isHeader: true,
       },
-      stateVariables: isDashboard,
-    },
-    {
-      id: "Service",
-      label: master,
-      icon: "ri-apps-2-line",
-      link: "/#",
-      click: function (e: any) {
-        e.preventDefault();
-        setIsService(!isService);
-        setIsCurrentState(service);
-        updateIconSidebar(e);
-      },
-      stateVariables: isService,
-      subItems: [
-        // {
-        //   id: "Service",
-        //   label: service,
-        //   link: "/master-services",
-        //   parentId: "Service",
-        // },
-        {
-          id: "Employee",
-          label: stackHolder,
-          link: "/dealer",
-          parentId: "Service",
+      {
+        id: "dashBoard",
+        label: dashboard,
+        icon: "ri-calendar-check-line",
+        link: "/",
+        click: function (e: any) {
+          e.preventDefault();
+          setIsCurrentState(dashboard);
+          updateIconSidebar(e);
         },
-        // {
-        //   id: "Project",
-        //   label: project,
-        //   link: "/project",
-        //   parentId: "Service",
-        // },
-        {
-          id: "Deal",
-          label: deal,
-          link: "/deal",
-          parentId: "Service",
-        },
-      ],
-    },
-    {
-      id: "taskAllocation",
-      label: taskAllocation,
-      icon: "ri-calendar-check-line",
-      link: "/task-allocation",
-      click: function (e: any) {
-        e.preventDefault();
-        setIsTaskAllocation(!isTaskAllocation);
-        setIsCurrentState(taskAllocation);
-        updateIconSidebar(e);
+        stateVariables: isDashboard,
       },
-      stateVariables: isTaskAllocation,
-    },
-  ];
+      {
+        id: "Dealer",
+        label: stackHolder,
+        icon: "ri-apps-2-line",
+        link: "/dealer",
+        click: function (e: any) {
+          e.preventDefault();
+          setIsDealer(!isDealer);
+          setIsCurrentState(stackHolder);
+          updateIconSidebar(e);
+        },
+        stateVariables: isDealer,
+      },
+      {
+        id: "Deal",
+        label: deal,
+        icon: "ri-apps-2-line",
+        link: "/deal",
+        click: function (e: any) {
+          e.preventDefault();
+          setIsDeal(!isDeal);
+          setIsCurrentState(deal);
+          updateIconSidebar(e);
+        },
+        stateVariables: isDeal,
+      },
+    ];
+  }
+
+  if (role === "Dealer") {
+    menuItems = [
+      {
+        label: "Menu",
+        isHeader: true,
+      },
+      {
+        id: "dashBoard",
+        label: dashboard,
+        icon: "ri-calendar-check-line",
+        link: "/",
+        click: function (e: any) {
+          e.preventDefault();
+          setIsCurrentState(dashboard);
+          updateIconSidebar(e);
+        },
+        stateVariables: isDashboard,
+      },
+      {
+        id: "Deal",
+        label: deal,
+        icon: "ri-apps-2-line",
+        link: "/deal",
+        click: function (e: any) {
+          e.preventDefault();
+          setIsDeal(!isDeal);
+          setIsCurrentState(deal);
+          updateIconSidebar(e);
+        },
+        stateVariables: isDeal,
+      },
+    ];
+  }
+
   return <React.Fragment>{menuItems}</React.Fragment>;
 };
 export default NavData;
